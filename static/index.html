@@ -5,21 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>RoboChat</title>
 </head>
 <body>
     <div class="header">
-        <h2>XimilChat</h2>
+        <h2>RoboChat</h2>
     </div>
-    <ul class="messages">
+    <ul id="messages">
+        <input type="text" id="input2" placeholder="Enter message...">
+        <input type="button" id="test" value="Send">
         <li>Hi</li>
         <li>Hello bro</li>
     </ul>
-    <form class="message-management">
+    <form class="message-management" id="enter">
         <p class="emoji">😀</p>
-        <input type="text" class="message" placeholder="Enter message...">
-        <input type="submit" class="submit" value="Send">
+        <input type="text" id="input" class="message" placeholder="Enter message...">
+        <input type="submit"  class="submit" value="Send">
     </form>
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
 </html>
