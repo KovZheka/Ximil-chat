@@ -1,0 +1,46 @@
+const { CallTracker } = require('assert');
+const fs = require('fs')
+
+const dbFile = './chat.db';
+const exist = fs.existsSync(dbFile);
+const sqlite3 = require('sqlite3').verbose();
+const dbWrapper = require('sqlite');
+let db;
+
+dbWrapper
+    .open({
+        filename: dbFile,
+        driver: sqlite3.Database
+    })
+    .then(async dBase => {
+        db = dBase;
+        try {
+            if(!exist) {
+                await db.run(
+                    `CREATE TABLE user(
+                        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        login TEXT,
+                        password TEXT
+                    );`
+                );
+                await db.run(
+                    `INSERT INTO user(login,password) VALUES("robogod", "1111");,
+                    ("banana", "1111"),
+                    ("apple", "1234");`
+                )
+                await db.run(
+                    `CREATE TABLE message( 
+                        msg_id INT PRIMARY KEY AUTO_INCREMENT, 
+                        content TEXT, 
+                        author INTEGER 
+                        FOREIGN KEY (author) EFERENCES user(user_id) 
+                        );`
+                )
+            }else{
+                console.log(await db.all ('SELECT * from user'))
+            }
+        }catch(dbError){
+            console.error(dbError);
+        }
+        
+    })

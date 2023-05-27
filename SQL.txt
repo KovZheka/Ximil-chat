@@ -1,0 +1,33 @@
+ CREATE TABLE user(
+                                     -> id INT PRIMARY KEY AUTO_INCREMENT,
+                                     -> login VARCHAR(40) NOT NULL UNIQUE,
+                                     -> password VARCHAR(100) NOT NULL);
+
+CREATE TABLE dialog( id INT PRIMARY KEY AUTO_INCREMENT, first_user_id INT NOT NULL, second_user_id INT NOT NULL, CONSTRAINT fk_first_user FOREIGN KEY (first_user_id) REFERENCES user(id), CONSTRAINT fk_second_user FOREIGN KEY (second_user_id) REFERENCES user(id) );
+
+
+CREATE TABLE message( id INT PRIMARY KEY AUTO_INCREMENT, content TEXT NOT NULL, author_id INT NOT NULL, dialog_id INT NOT NULL, CONSTRAINT fk_author FOREIGN KEY (author_id) REFERENCES user(id), CONSTRAINT fk_dialog FOREIGN KEY (dialog_id) REFERENCES dialog(id) );
+
+INSERT INTO user(login,password) VALUES("robogod", "1111");
+
+INSERT INTO dialog(first_user_id, second_user_id) VALUES(1,2);
+INSERT INTO dialog(first_user_id, second_user_id) VALUES(2,3);
+INSERT INTO dialog(first_user_id, second_user_id) VALUES(3,4);
+INSERT INTO dialog(first_user_id, second_user_id) VALUES(4,1);
+
+
+INSERT INTO message(content,author_id,dialog_id) VALUES("Hello! Its test", 1,1)
+INSERT INTO message(content,author_id,dialog_id) VALUES("Okey, boom shakalaka", 2,1)
+INSERT INTO message(content,author_id,dialog_id) VALUES("LoL", 1,1)
+
+INSERT INTO message(content,author_id,dialog_id) VALUES("Hello! Its test", 2,2)
+INSERT INTO message(content,author_id,dialog_id) VALUES("Okey, boom shakalaka", 3,2)
+INSERT INTO message(content,author_id,dialog_id) VALUES("LoL", 2,2)
+
+INSERT INTO message(content,author_id,dialog_id) VALUES("Hello! Its test", 3,3)
+INSERT INTO message(content,author_id,dialog_id) VALUES("Okey, boom shakalaka", 4,3)
+INSERT INTO message(content,author_id,dialog_id) VALUES("LoL", 3,3)
+
+INSERT INTO message(content,author_id,dialog_id) VALUES("Hello! Its test", 4,4)
+INSERT INTO message(content,author_id,dialog_id) VALUES("Okey, boom shakalaka", 1,4)
+INSERT INTO message(content,author_id,dialog_id) VALUES("LoL", 4,4)

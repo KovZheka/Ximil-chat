@@ -11,7 +11,7 @@ submit.addEventListener("submit", function (event) {
     event.preventDefault()
     console.log('test');
     if(input.value){
-        socket.emit('newMessage', input.value)
+        socket.emit('newMessage', input.value);
     }
 });
 
