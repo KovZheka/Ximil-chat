@@ -7,6 +7,14 @@ const button = document.getElementById("changeNickname")
 const send = document.getElementById("test")
 const text = document.getElementById("input2")
 
+let xhr = new XMLHttpRequest();
+xhr.open("GET", "http://localhost:3000/start")
+xhr.responseType = 'json';
+xhr.send();
+xhr.onload = () => {
+    console.log(xhr.response);
+}
+
 submit.addEventListener("submit", function (event) {
     event.preventDefault()
     console.log('test');
