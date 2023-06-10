@@ -10,6 +10,12 @@ const pathToStyle = path.join(__dirname, 'static', 'style.css')
 const styleHtmlFile = fs.readFileSync(pathToStyle)
 const pathToScript = path.join(__dirname, 'static', 'script.js')
 const scriptHtmlFile = fs.readFileSync(pathToScript)
+const pathToReg = path.join(__dirname, 'static', 'register.html')
+const regHtmlFile = fs.readFileSync(pathToReg)
+const pathToScriptReg = path.join(__dirname, "static", "auth.js")
+const regJSFile = fs.readFileSync(pathToScriptReg)
+const pathToStyleReg = path.join(__dirname, "static", "register.css")
+const styleHtmlFileReg = fs.readFileSync(pathToStyleReg)
 const host = "localhost";
 const port = "3000";
 
@@ -30,14 +36,24 @@ const server = http.createServer(async(req,res) => {
     else if(req.url === "/start" && req.method === "GET"){
         try{
             const message = JSON.stringify(await db.getMessage())
-            console.log(message)
             res.writeHead(200, {"Content-type":"text/html"});
             res.end(message);
         }catch(error) {
-            console.log(error);
             res.writeHead(500);
             res.end();
         }
+    }
+    else if(req.url === '/register' && req.method === "GET"){
+        res.writeHead(200, {"Content-type":"text/html"})
+        res.end(regHtmlFile);
+    }
+    else if (req.url === "/auth.js" && req.method === "GET"){
+        res.writeHead(200, {"Content-type":"text/js"})
+        res.end(regJSFile);
+    }
+    else if (req.url === "/register.css" && req.method === "GET"){
+        res.writeHead(200, {"Content-type":"text/css"})
+        res.end(styleHtmlFileReg);
     }
     else{
         res.writeHead(404, {"Content-type":"text/html"})
@@ -49,13 +65,16 @@ io.on('connection', (socket) => {
     let userNickname = "name";
     console.log(`a user connected. id - ${socket.id}`)
 
-    socket.on('newMessage', (message) => {
-        db.addMessage(message, 1);
-       io.emit('message', `${userNickname}: ${message}`)
-    })
     socket.on("userName", (name) =>{
         userNickname = name;
     })
+
+    socket.on('newMessage', async (msg) => {
+        console.log("1")
+       db.addMessage(msg, 1);
+       io.emit('message', `${userNickname}: ${msg}`)
+    })
+    
     
 })
 server.listen(port, host, () => {
